@@ -11,29 +11,29 @@
     }
     body {
       font-family: 'Tajawal', sans-serif;
-      background: linear-gradient(145deg, #f0f4f8, #ffffff);
+      background: linear-gradient(to right, #1e3a8a, #3b82f6);
       margin: 0;
       padding: 0;
-      color: #1f2937;
+      color: #f8fafc;
     }
     .container {
       max-width: 900px;
-      margin: 60px auto;
-      background: #fff;
+      margin: 50px auto;
+      background: #1e293b;
       padding: 40px;
       border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       transition: all 0.3s ease-in-out;
     }
     h1, h2 {
       text-align: center;
-      color: #0f172a;
+      color: #facc15;
       margin-bottom: 30px;
     }
     .question {
       margin-bottom: 40px;
       padding: 20px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid #334155;
     }
     .options button {
       display: block;
@@ -41,16 +41,17 @@
       padding: 14px 16px;
       margin: 10px 0;
       font-size: 16px;
-      background-color: #e0f2fe;
-      border: 2px solid #0284c7;
+      background-color: #3b82f6;
+      border: 2px solid transparent;
       border-radius: 12px;
       cursor: pointer;
-      color: #0c4a6e;
+      color: #fff;
       font-weight: bold;
-      transition: all 0.2s ease-in-out;
+      transition: 0.2s;
     }
     .options button:hover {
-      background-color: #bae6fd;
+      background-color: #2563eb;
+      transform: scale(1.02);
     }
     .range-inputs {
       display: flex;
@@ -61,9 +62,11 @@
     .range-inputs input {
       width: 100%;
       padding: 12px;
-      border: 2px solid #cbd5e1;
+      border: 2px solid #475569;
+      background-color: #0f172a;
       border-radius: 10px;
       font-size: 16px;
+      color: #f8fafc;
     }
     .range-inputs button {
       margin-top: 20px;
@@ -76,6 +79,10 @@
       font-size: 16px;
       font-weight: bold;
       cursor: pointer;
+      transition: 0.2s;
+    }
+    .range-inputs button:hover {
+      background-color: #059669;
     }
     .nav-buttons {
       display: flex;
@@ -86,27 +93,33 @@
       padding: 12px 24px;
       font-size: 16px;
       border: none;
-      background-color: #1d4ed8;
-      color: white;
+      background-color: #f59e0b;
+      color: #1e293b;
       border-radius: 10px;
       cursor: pointer;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+    .nav-buttons button:hover {
+      background-color: #fbbf24;
     }
     .result {
       margin-top: 40px;
-      background: #dcfce7;
-      border: 1px solid #86efac;
+      background: #16a34a;
+      border: 1px solid #bbf7d0;
       padding: 25px;
       border-radius: 12px;
-      font-size: 20px;
+      font-size: 22px;
       text-align: center;
-      color: #166534;
+      color: #f0fdf4;
       font-weight: bold;
+      box-shadow: 0 0 10px rgba(0, 255, 100, 0.2);
     }
     .footer {
       text-align: center;
       margin-top: 40px;
       font-size: 14px;
-      color: #aaa;
+      color: #94a3b8;
     }
   </style>
 </head>
@@ -123,102 +136,22 @@
 
   <script>
     const questions = [
-      {
-        id: 'mood',
-        text: 'كيف كان شعورك العام أثناء فترة الامتحانات؟',
-        options: ['مرتاح وواثق', 'متوتر بس مسيطر', 'ضايع شوي', 'مكتئب أو مرهق نفسيًا', 'ما كنت حاس بأي شي'],
-        weight: 1
-      },
-      {
-        id: 'sleep',
-        text: 'كيف كان نومك خلال فترة الامتحانات؟',
-        options: ['منتظم جدًا', 'جيد نسبيًا', 'مضطرب شوي', 'ما كنت أنام', 'مش فاكر حتى'],
-        weight: 1
-      },
-      {
-        id: 'studyHabits',
-        text: 'هل كنت تذاكر بانتظام طول السنة؟',
-        options: ['نعم بشكل يومي', 'أغلب الأيام', 'فقط أيام المراجعة', 'قبل الامتحان بس', 'ولا يوم فعليًا'],
-        weight: 2
-      },
-      {
-        id: 'schoolPerformance',
-        text: 'كيف كان أدائك العام في المدرسة؟',
-        options: ['ممتاز', 'جيد جدًا', 'جيد', 'متوسط', 'ضعيف'],
-        weight: 2
-      },
-      {
-        id: 'stress',
-        text: 'هل كنت تشعر بضغط نفسي خلال فترة الامتحانات؟',
-        options: ['لا أبداً', 'قليل', 'متوسط', 'كثير', 'شديد جداً'],
-        weight: 1
-      },
-      {
-        id: 'confidence',
-        text: 'ما مدى ثقتك في إجاباتك؟',
-        options: ['مطمئن تمامًا', 'إلى حد ما', 'مش واثق', 'مشكك في بعض الإجابات', 'متأكد من أخطاءي'],
-        weight: 1
-      },
-      {
-        id: 'englishGrade',
-        text: 'توقَعك لمادة الإسلامية؟',
-        type: 'range',
-        weight: 3
-      },
-      {
-        id: 'biologyGrade',
-        text: 'توقّعك لمادة الفلسفة والمنطق وعلم النفس؟',
-        type: 'range',
-        weight: 3
-      },
-      {
-        id: 'cheating',
-        text: 'هل كنت تغش في الامتحانات؟',
-        options: ['لا أبداً', 'أحيانًا', 'غشيت في بعض المواد', 'غشيت في جميع المواد'],
-        weight: 2
-      },
-      {
-        id: 'sourceValidity',
-        text: 'هل كانت مصادر إجاباتك صحيحة وموثوقة؟',
-        options: ['نعم 100%', 'غالبًا كانت صحيحة', 'بعض الإجابات مشكوك فيها', 'غالبًا كانت خاطئة'],
-        weight: 3
-      },
-      {
-        id: 'arabicGrade',
-        text: 'توقّعك لمادة التاريخ؟',
-        type: 'range',
-        weight: 3
-      },
-      {
-        id: 'mathGrade',
-        text: 'توقَعك لمادة الجغرافيا؟',
-        type: 'range',
-        weight: 3
-      },
-      {
-        id: 'quranGrade',
-        text: 'توقّعك لمادة اللغة العربية؟',
-        type: 'range',
-        weight: 2
-      },
-      {
-        id: 'islamicGrade',
-        text: 'توقّعك لمادة اللغة الإنجليزية؟',
-        type: 'range',
-        weight: 2
-      },
-      {
-        id: 'chemistryGrade',
-        text: 'توقّعك لمادة اللغة الرياضيات؟',
-        type: 'range',
-        weight: 3
-      },
-      {
-        id: 'physicsGrade',
-        text: 'توقّعك لمادة القرآن الكريم؟',
-        type: 'range',
-        weight: 3
-      }
+      { id: 'mood', text: 'كيف كان شعورك العام أثناء فترة الامتحانات؟', options: ['مرتاح وواثق', 'متوتر بس مسيطر', 'ضايع شوي', 'مكتئب أو مرهق نفسيًا', 'ما كنت حاس بأي شي'], weight: 1 },
+      { id: 'sleep', text: 'كيف كان نومك خلال فترة الامتحانات؟', options: ['منتظم جدًا', 'جيد نسبيًا', 'مضطرب شوي', 'ما كنت أنام', 'مش فاكر حتى'], weight: 1 },
+      { id: 'studyHabits', text: 'هل كنت تذاكر بانتظام طول السنة؟', options: ['نعم بشكل يومي', 'أغلب الأيام', 'فقط أيام المراجعة', 'قبل الامتحان بس', 'ولا يوم فعليًا'], weight: 2 },
+      { id: 'schoolPerformance', text: 'كيف كان أدائك العام في المدرسة؟', options: ['ممتاز', 'جيد جدًا', 'جيد', 'متوسط', 'ضعيف'], weight: 2 },
+      { id: 'stress', text: 'هل كنت تشعر بضغط نفسي خلال فترة الامتحانات؟', options: ['لا أبداً', 'قليل', 'متوسط', 'كثير', 'شديد جداً'], weight: 1 },
+      { id: 'confidence', text: 'ما مدى ثقتك في إجاباتك؟', options: ['مطمئن تمامًا', 'إلى حد ما', 'مش واثق', 'مشكك في بعض الإجابات', 'متأكد من أخطاءي'], weight: 1 },
+      { id: 'englishGrade', text: 'توقَعك لمادة الإسلامية؟', type: 'range', weight: 3 },
+      { id: 'biologyGrade', text: 'توقّعك لمادة الفلسفة والمنطق وعلم النفس؟', type: 'range', weight: 3 },
+      { id: 'cheating', text: 'هل كنت تغش في الامتحانات؟', options: ['لا أبداً', 'أحيانًا', 'غشيت في بعض المواد', 'غشيت في جميع المواد'], weight: 2 },
+      { id: 'sourceValidity', text: 'هل كانت مصادر إجاباتك صحيحة وموثوقة؟', options: ['نعم 100%', 'غالبًا كانت صحيحة', 'بعض الإجابات مشكوك فيها', 'غالبًا كانت خاطئة'], weight: 3 },
+      { id: 'arabicGrade', text: 'توقّعك لمادة التاريخ؟', type: 'range', weight: 3 },
+      { id: 'mathGrade', text: 'توقَعك لمادة الجغرافيا؟', type: 'range', weight: 3 },
+      { id: 'quranGrade', text: 'توقّعك لمادة اللغة العربية؟', type: 'range', weight: 2 },
+      { id: 'islamicGrade', text: 'توقّعك لمادة اللغة الإنجليزية؟', type: 'range', weight: 2 },
+      { id: 'chemistryGrade', text: 'توقّعك لمادة اللغة الرياضيات؟', type: 'range', weight: 3 },
+      { id: 'physicsGrade', text: 'توقّعك لمادة القرآن الكريم؟', type: 'range', weight: 3 }
     ];
 
     let current = 0;
@@ -227,8 +160,7 @@
     function renderQuestion() {
       const app = document.getElementById('app');
       const q = questions[current];
-      let html = `<div class="question">
-        <h2>${q.text}</h2>`;
+      let html = `<div class="question"><h2>${q.text}</h2>`;
 
       if (q.options) {
         html += '<div class="options">';
