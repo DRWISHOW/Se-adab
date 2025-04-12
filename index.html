@@ -1,9 +1,8 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>حاسبة معدل الثانوية العامة - القسم الأدبي</title>
+  <title>حاسبة معدل الثانوية العامة</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -11,29 +10,29 @@
     }
     body {
       font-family: 'Tajawal', sans-serif;
-      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      background: linear-gradient(to right, #263238, #37474f);
       margin: 0;
       padding: 0;
-      color: #1e1e1e;
+      color: #ffffff;
     }
     .container {
       max-width: 900px;
       margin: 50px auto;
-      background: #ffffff;
+      background: #1c1c1c;
       padding: 40px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       transition: all 0.3s ease-in-out;
     }
     h1, h2 {
       text-align: center;
-      color: #263238;
+      color: #ffffff;
       margin-bottom: 30px;
     }
     .question {
       margin-bottom: 40px;
       padding: 20px;
-      border-bottom: 1px solid #cfd8dc;
+      border-bottom: 1px solid #455a64;
     }
     .options button {
       display: block;
@@ -41,7 +40,7 @@
       padding: 14px 16px;
       margin: 10px 0;
       font-size: 16px;
-      background-color: #f76c6c;
+      background-color: #00bfa5;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -50,7 +49,7 @@
       transition: 0.3s;
     }
     .options button:hover {
-      background-color: #d65a5a;
+      background-color: #008e76;
       transform: scale(1.02);
     }
     .range-inputs {
@@ -62,11 +61,11 @@
     .range-inputs input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #b0bec5;
-      background-color: #f5f5f5;
+      border: 1px solid #78909c;
+      background-color: #263238;
       border-radius: 10px;
       font-size: 16px;
-      color: #263238;
+      color: #ffffff;
     }
     .range-inputs button {
       margin-top: 20px;
@@ -115,147 +114,132 @@
       font-weight: bold;
       box-shadow: 0 0 10px rgba(0, 150, 136, 0.2);
     }
-    .analysis {
-      margin-top: 30px;
-      background-color: #f1f8e9;
+    .psychology-analysis {
+      margin-top: 20px;
+      background: #37474f;
       padding: 20px;
-      border-radius: 10px;
-      color: #33691e;
+      border-radius: 12px;
       font-size: 18px;
-      line-height: 1.6;
+      text-align: center;
+      color: #eceff1;
+    }
+    .share-button {
+      margin: 20px auto;
+      display: block;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
       font-weight: bold;
+      font-size: 16px;
+    }
+    .share-button:hover {
+      background-color: #1976d2;
     }
     .footer {
       text-align: center;
       margin-top: 40px;
       font-size: 14px;
-      color: #78909c;
+      color: #b0bec5;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>حاسبة معدل الثانوية العامة الذكية - القسم الأدبي</h1>
+    <h1>حاسبة معدل الثانوية العامة الذكية 'ادبي</h1>
     <div id="app"></div>
   </div>
-
   <div class="footer">
     <p>برمجة وتصميم عبدالله الدرويش</p>
     <p>جميع الحقوق محفوظة &copy; 2025</p>
   </div>
-
   <script>
-    const questions = [
-      { id: 'mood', text: 'كيف كان شعورك العام أثناء فترة الامتحانات؟', options: ['مرتاح وواثق', 'متوتر بس مسيطر', 'ضايع شوي', 'مكتئب أو مرهق نفسيًا', 'ما كنت حاس بأي شي'], weight: 1 },
-      { id: 'sleep', text: 'كيف كان نومك خلال فترة الامتحانات؟', options: ['منتظم جدًا', 'جيد نسبيًا', 'مضطرب شوي', 'ما كنت أنام', 'مش فاكر حتى'], weight: 1 },
-      { id: 'studyHabits', text: 'هل كنت تذاكر بانتظام طول السنة؟', options: ['نعم بشكل يومي', 'أغلب الأيام', 'فقط أيام المراجعة', 'قبل الامتحان بس', 'ولا يوم فعليًا'], weight: 2 },
-      { id: 'schoolPerformance', text: 'كيف كان أدائك العام في المدرسة؟', options: ['ممتاز', 'جيد جدًا', 'جيد', 'متوسط', 'ضعيف'], weight: 2 },
-      { id: 'englishGrade', text: 'توقّعك لمادة الإسلامية؟', type: 'range', weight: 3 },
-      { id: 'arabicGrade', text: 'توقّعك لمادة اللغة العربية؟', type: 'range', weight: 3 },
-      { id: 'historyGrade', text: 'توقّعك لمادة التاريخ؟', type: 'range', weight: 3 },
-      { id: 'geographyGrade', text: 'توقّعك لمادة الجغرافيا؟', type: 'range', weight: 3 },
-      { id: 'mathGrade', text: 'توقّعك لمادة الرياضيات؟', type: 'range', weight: 3 },
-      { id: 'logicGrade', text: 'توقّعك لمادة الفلسفة والمنطق؟', type: 'range', weight: 3 },
-      { id: 'englishLangGrade', text: 'توقّعك لمادة اللغة الإنجليزية؟', type: 'range', weight: 3 },
-    ];
+    const questions = [...]; // ضع هنا نفس الأسئلة الأصليةlet current = 0;
+const answers = {};
 
-    let current = 0;
-    const answers = {};
+function renderQuestion() {
+  ... // لا تغيير في هذا الجزء
+}
 
-    function renderQuestion() {
-      const app = document.getElementById('app');
-      const q = questions[current];
-      let html = `<div class="question"><h2>${q.text}</h2>`;
+function answer(id, value) {
+  answers[id] = value;
+  next();
+}
 
-      if (q.options) {
-        html += '<div class="options">';
-        q.options.forEach(opt => {
-          html += `<button onclick="answer('${q.id}', '${opt}')">${opt}</button>`;
-        });
-        html += '</div>';
-      } else if (q.type === 'range') {
-        html += `<div class="range-inputs">
-          <input type="number" placeholder="أقل درجة" id="${q.id}_min">
-          <input type="number" placeholder="أعلى درجة" id="${q.id}_max">
-          <button onclick="saveRange('${q.id}')">التالي</button>
-        </div>`;
-      }
+function saveRange(id) {
+  const min = parseFloat(document.getElementById(id + '_min').value);
+  const max = parseFloat(document.getElementById(id + '_max').value);
+  if (!isNaN(min) && !isNaN(max)) {
+    answers[id] = { min, max };
+    next();
+  } else {
+    alert('يرجى إدخال قيم صحيحة.');
+  }
+}
 
-      html += '</div><div class="nav-buttons">';
-      if (current > 0) html += `<button onclick="prev()">السابق</button>`;
-      if (current < questions.length - 1) html += `<button onclick="next()">تخطي</button>`;
-      html += '</div>';
-      app.innerHTML = html;
-    }
-
-    function answer(id, value) {
-      answers[id] = value;
-      next();
-    }
-
-    function saveRange(id) {
-      const min = parseFloat(document.getElementById(id + '_min').value);
-      const max = parseFloat(document.getElementById(id + '_max').value);
-      if (!isNaN(min) && !isNaN(max)) {
-        answers[id] = { min, max };
-        next();
-      } else {
-        alert('يرجى إدخال قيم صحيحة.');
-      }
-    }
-
-    function next() {
-      if (current < questions.length - 1) {
-        current++;
-        renderQuestion();
-      } else {
-        showResult();
-      }
-    }
-
-    function prev() {
-      if (current > 0) {
-        current--;
-        renderQuestion();
-      }
-    }
-
-    function showResult() {
-      const app = document.getElementById('app');
-      let total = 0;
-      let count = 0;
-      let analysis = '';
-
-      for (let key in answers) {
-        const val = answers[key];
-        const weight = questions.find(q => q.id === key).weight;
-        if (typeof val === 'object') {
-          const avg = (val.min + val.max) / 2;
-          total += avg * weight;
-          count += weight;
-        }
-      }
-
-      const avg = total / count;
-
-      if (avg >= 90) {
-        analysis = 'أداء ممتاز! شكلك مجتهد ومستعد تمامًا. الله يوفقك!';
-      } else if (avg >= 75) {
-        analysis = 'معدل جيد جدًا، فيك الخير وكلك أمل. حاول تطور أكثر!';
-      } else if (avg >= 60) {
-        analysis = 'معدل متوسط، تحتاج شوية دفعة وتشجيع. انت قدها!';
-      } else {
-        analysis = 'الطريق صعب شوي لكن مش مستحيل، لا تستسلم وابدأ من جديد.';
-      }
-
-      const html = `
-        <div class="result">${avg.toFixed(2)} / 100</div>
-        <div class="analysis">${analysis}</div>
-      `;
-      app.innerHTML = html;
-    }
-
+function next() {
+  if (current < questions.length - 1) {
+    current++;
     renderQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function prev() {
+  if (current > 0) {
+    current--;
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  const app = document.getElementById('app');
+  let html = '<h2>النتيجة التقريبية لمعدلك:</h2>';
+  let total = 0, count = 0;
+  let psychologyEffect = 0;
+
+  for (let key in answers) {
+    const val = answers[key];
+    const q = questions.find(q => q.id === key);
+    if (!q) continue;
+    if (typeof val === 'object') {
+      const avg = (parseFloat(val.min) + parseFloat(val.max)) / 2;
+      total += avg * q.weight;
+      count += q.weight;
+    } else {
+      psychologyEffect += (q.options.indexOf(val) / (q.options.length - 1)) * q.weight;
+    }
+  }
+
+  let avg = total / count;
+  avg -= psychologyEffect; // خصم تأثير العوامل النفسية
+
+  html += `<div class="result">${avg.toFixed(2)} / 100</div>`;
+  html += `<div class="psychology-analysis">${generatePsychologicalAnalysis()}</div>`;
+  html += `<button class="share-button" onclick="shareResult(${avg.toFixed(2)})">مشاركة النتيجة</button>`;
+  app.innerHTML = html;
+}
+
+function generatePsychologicalAnalysis() {
+  let mood = answers['mood'] || '';
+  if (mood.includes('مرتاح')) return 'واضح إنك كنت واثق من نفسك، حافظ على ثقتك واستعد لأي مفاجآت!';
+  if (mood.includes('متوتر')) return 'التوتر طبيعي بس لا تخليه يهزك.. انت قدها!';
+  if (mood.includes('مكتئب')) return 'حاول تعيد التوازن النفسي لأنك أقوى من أي ضغط.';
+  return 'تحليل نفسي غير متوفر حاليًا بدقة كافية.';
+}
+
+function shareResult(score) {
+  const text = `حسب تحليل موقع حاسبة الثانوية الذكية، معدلي المتوقع: ${score} من 100! جربه أنت كمان!`;
+  const url = encodeURIComponent(window.location.href);
+  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`;
+  window.open(shareUrl, '_blank');
+}
+
+renderQuestion();
+
   </script>
 </body>
 </html>
