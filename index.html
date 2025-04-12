@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>حاسبة معدل الثانوية العامة</title>
+  <title>حاسبة معدل الثانوية العامة - أدبي</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -18,11 +18,10 @@
     .container {
       max-width: 900px;
       margin: 50px auto;
-      background: #1c1c1c;
+      background: #1e1e1e;
       padding: 40px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease-in-out;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
     h1, h2 {
       text-align: center;
@@ -40,7 +39,7 @@
       padding: 14px 16px;
       margin: 10px 0;
       font-size: 16px;
-      background-color: #00bfa5;
+      background-color: #009688;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -49,7 +48,7 @@
       transition: 0.3s;
     }
     .options button:hover {
-      background-color: #008e76;
+      background-color: #00796b;
       transform: scale(1.02);
     }
     .range-inputs {
@@ -61,8 +60,8 @@
     .range-inputs input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #78909c;
-      background-color: #263238;
+      border: 1px solid #546e7a;
+      background-color: #37474f;
       border-radius: 10px;
       font-size: 16px;
       color: #ffffff;
@@ -104,38 +103,29 @@
     }
     .result {
       margin-top: 40px;
-      background: #009688;
-      border: 1px solid #b2dfdb;
+      background: #00796b;
       padding: 25px;
       border-radius: 12px;
       font-size: 22px;
       text-align: center;
       color: #ffffff;
       font-weight: bold;
-      box-shadow: 0 0 10px rgba(0, 150, 136, 0.2);
+      box-shadow: 0 0 10px rgba(0, 150, 136, 0.5);
     }
-    .psychology-analysis {
-      margin-top: 20px;
-      background: #37474f;
-      padding: 20px;
-      border-radius: 12px;
-      font-size: 18px;
+    .share {
       text-align: center;
-      color: #eceff1;
+      margin-top: 20px;
     }
-    .share-button {
-      margin: 20px auto;
-      display: block;
+    .share button {
       background-color: #2196f3;
       color: white;
-      border: none;
       padding: 12px 20px;
+      border: none;
       border-radius: 10px;
       cursor: pointer;
-      font-weight: bold;
       font-size: 16px;
     }
-    .share-button:hover {
+    .share button:hover {
       background-color: #1976d2;
     }
     .footer {
@@ -148,7 +138,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>حاسبة معدل الثانوية العامة الذكية 'ادبي</h1>
+    <h1>حاسبة معدل الثانوية العامة الذكية - أدبي</h1>
     <div id="app"></div>
   </div>
   <div class="footer">
@@ -156,11 +146,42 @@
     <p>جميع الحقوق محفوظة &copy; 2025</p>
   </div>
   <script>
-    const questions = [...]; // ضع هنا نفس الأسئلة الأصليةlet current = 0;
+    const questions = [
+      { id: 'mood', text: 'كيف كان شعورك العام أثناء فترة الامتحانات؟', options: ['مرتاح وواثق', 'متوتر بس مسيطر', 'ضايع شوي', 'مكتئب أو مرهق نفسيًا', 'ما كنت حاس بأي شي'], weight: 1 },
+      { id: 'sleep', text: 'كيف كان نومك خلال فترة الامتحانات؟', options: ['منتظم جدًا', 'جيد نسبيًا', 'مضطرب شوي', 'ما كنت أنام', 'مش فاكر حتى'], weight: 1 },
+      { id: 'studyHabits', text: 'هل كنت تذاكر بانتظام طول السنة؟', options: ['نعم بشكل يومي', 'أغلب الأيام', 'فقط أيام المراجعة', 'قبل الامتحان بس', 'ولا يوم فعليًا'], weight: 2 },
+      { id: 'confidence', text: 'ما مدى ثقتك في إجاباتك؟', options: ['مطمئن تمامًا', 'إلى حد ما', 'مش واثق', 'مشكك في بعض الإجابات', 'متأكد من أخطاءي'], weight: 1 },
+      { id: 'arabic', text: 'كم تتوقع في مادة اللغة العربية؟', type: 'range', weight: 3 },
+      { id: 'english', text: 'كم تتوقع في مادة اللغة الإنجليزية؟', type: 'range', weight: 2 },
+      { id: 'history', text: 'كم تتوقع في مادة التاريخ؟', type: 'range', weight: 3 },
+      { id: 'geography', text: 'كم تتوقع في مادة الجغرافيا؟', type: 'range', weight: 3 },
+    ];let current = 0;
 const answers = {};
 
 function renderQuestion() {
-  ... // لا تغيير في هذا الجزء
+  const app = document.getElementById('app');
+  const q = questions[current];
+  let html = `<div class="question"><h2>${q.text}</h2>`;
+
+  if (q.options) {
+    html += '<div class="options">';
+    q.options.forEach(opt => {
+      html += `<button onclick="answer('${q.id}', '${opt}')">${opt}</button>`;
+    });
+    html += '</div>';
+  } else if (q.type === 'range') {
+    html += `<div class="range-inputs">
+      <input type="number" placeholder="أقل درجة" id="${q.id}_min">
+      <input type="number" placeholder="أعلى درجة" id="${q.id}_max">
+      <button onclick="saveRange('${q.id}')">التالي</button>
+    </div>`;
+  }
+
+  html += '</div><div class="nav-buttons">';
+  if (current > 0) html += `<button onclick="prev()">السابق</button>`;
+  if (current < questions.length - 1) html += `<button onclick="next()">تخطي</button>`;
+  html += '</div>';
+  app.innerHTML = html;
 }
 
 function answer(id, value) {
@@ -198,44 +219,38 @@ function prev() {
 function showResult() {
   const app = document.getElementById('app');
   let html = '<h2>النتيجة التقريبية لمعدلك:</h2>';
-  let total = 0, count = 0;
-  let psychologyEffect = 0;
-
+  let total = 0, count = 0, moodScore = 0;
   for (let key in answers) {
     const val = answers[key];
-    const q = questions.find(q => q.id === key);
-    if (!q) continue;
+    const question = questions.find(q => q.id === key);
+    if (!question) continue;
+
     if (typeof val === 'object') {
-      const avg = (parseFloat(val.min) + parseFloat(val.max)) / 2;
-      total += avg * q.weight;
-      count += q.weight;
+      const avg = (val.min + val.max) / 2;
+      total += avg * question.weight;
+      count += question.weight;
     } else {
-      psychologyEffect += (q.options.indexOf(val) / (q.options.length - 1)) * q.weight;
+      moodScore += (question.options.indexOf(val)) * question.weight;
     }
   }
-
   let avg = total / count;
-  avg -= psychologyEffect; // خصم تأثير العوامل النفسية
+
+  if (moodScore > 6) avg -= 5;
+  else if (moodScore > 10) avg -= 10;
 
   html += `<div class="result">${avg.toFixed(2)} / 100</div>`;
-  html += `<div class="psychology-analysis">${generatePsychologicalAnalysis()}</div>`;
-  html += `<button class="share-button" onclick="shareResult(${avg.toFixed(2)})">مشاركة النتيجة</button>`;
+  html += `<div class="share"><button onclick="shareResult(${avg.toFixed(2)})">مشاركة النتيجة</button></div>`;
+
+  const analysis = moodScore < 5 ? 'أداءك النفسي كان ممتاز، وده بيأثر إيجابي على النتيجة.' : moodScore < 10 ? 'كان في توتر واضح، لكنه ما يمنع تحقيق نتيجة طيبة.' : 'الوضع النفسي أثر بشكل كبير، حاول تريح بالك وتحسن نفسيتك للمرحلة الجاية.';
+  html += `<div class="result" style="background:#512da8">${analysis}</div>`;
+
   app.innerHTML = html;
 }
 
-function generatePsychologicalAnalysis() {
-  let mood = answers['mood'] || '';
-  if (mood.includes('مرتاح')) return 'واضح إنك كنت واثق من نفسك، حافظ على ثقتك واستعد لأي مفاجآت!';
-  if (mood.includes('متوتر')) return 'التوتر طبيعي بس لا تخليه يهزك.. انت قدها!';
-  if (mood.includes('مكتئب')) return 'حاول تعيد التوازن النفسي لأنك أقوى من أي ضغط.';
-  return 'تحليل نفسي غير متوفر حاليًا بدقة كافية.';
-}
-
 function shareResult(score) {
-  const text = `حسب تحليل موقع حاسبة الثانوية الذكية، معدلي المتوقع: ${score} من 100! جربه أنت كمان!`;
+  const text = `توقعت معدلي في الثانوية العامة يطلع ${score}/100 عبر موقع الدرويش! جرب بنفسك:`;
   const url = encodeURIComponent(window.location.href);
-  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`;
-  window.open(shareUrl, '_blank');
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}%20${url}`);
 }
 
 renderQuestion();
