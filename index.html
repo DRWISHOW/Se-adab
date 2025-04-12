@@ -1,8 +1,9 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>حاسبة معدل الثانوية العامة</title>
+  <title>حاسبة معدل الثانوية العامة - القسم الأدبي</title>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -10,7 +11,7 @@
     }
     body {
       font-family: 'Tajawal', sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #e0f2f1);
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
       margin: 0;
       padding: 0;
       color: #1e1e1e;
@@ -21,17 +22,18 @@
       background: #ffffff;
       padding: 40px;
       border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease-in-out;
     }
     h1, h2 {
       text-align: center;
-      color: #004d40;
+      color: #263238;
       margin-bottom: 30px;
     }
     .question {
       margin-bottom: 40px;
       padding: 20px;
-      border-bottom: 1px solid #b2dfdb;
+      border-bottom: 1px solid #cfd8dc;
     }
     .options button {
       display: block;
@@ -39,7 +41,7 @@
       padding: 14px 16px;
       margin: 10px 0;
       font-size: 16px;
-      background-color: #00796b;
+      background-color: #f76c6c;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -48,7 +50,7 @@
       transition: 0.3s;
     }
     .options button:hover {
-      background-color: #004d40;
+      background-color: #d65a5a;
       transform: scale(1.02);
     }
     .range-inputs {
@@ -60,15 +62,16 @@
     .range-inputs input {
       width: 100%;
       padding: 12px;
-      border: 1px solid #b2dfdb;
-      background-color: #f0fdfa;
+      border: 1px solid #b0bec5;
+      background-color: #f5f5f5;
       border-radius: 10px;
       font-size: 16px;
+      color: #263238;
     }
     .range-inputs button {
       margin-top: 20px;
       width: 100%;
-      background-color: #388e3c;
+      background-color: #4caf50;
       color: white;
       padding: 14px;
       border: none;
@@ -79,7 +82,7 @@
       transition: 0.3s;
     }
     .range-inputs button:hover {
-      background-color: #2e7d32;
+      background-color: #388e3c;
     }
     .nav-buttons {
       display: flex;
@@ -90,19 +93,20 @@
       padding: 12px 24px;
       font-size: 16px;
       border: none;
-      background-color: #ff7043;
+      background-color: #ff9800;
       color: white;
       border-radius: 10px;
       cursor: pointer;
       font-weight: bold;
+      transition: 0.3s;
     }
     .nav-buttons button:hover {
-      background-color: #f4511e;
+      background-color: #fb8c00;
     }
     .result {
       margin-top: 40px;
-      background: #00796b;
-      border: 1px solid #4db6ac;
+      background: #009688;
+      border: 1px solid #b2dfdb;
       padding: 25px;
       border-radius: 12px;
       font-size: 22px;
@@ -112,153 +116,146 @@
       box-shadow: 0 0 10px rgba(0, 150, 136, 0.2);
     }
     .analysis {
-      background-color: #e0f2f1;
+      margin-top: 30px;
+      background-color: #f1f8e9;
       padding: 20px;
-      margin-top: 20px;
       border-radius: 10px;
-      font-size: 16px;
+      color: #33691e;
+      font-size: 18px;
       line-height: 1.6;
-    }
-    .share-btn {
-      margin-top: 20px;
-      display: block;
-      width: 100%;
-      background-color: #009688;
-      color: white;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
       font-weight: bold;
-      cursor: pointer;
     }
     .footer {
       text-align: center;
       margin-top: 40px;
       font-size: 14px;
-      color: #607d8b;
+      color: #78909c;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>حاسبة معدل الثانوية العامة الذكية - أدبي</h1>
+    <h1>حاسبة معدل الثانوية العامة الذكية - القسم الأدبي</h1>
     <div id="app"></div>
   </div>
+
   <div class="footer">
     <p>برمجة وتصميم عبدالله الدرويش</p>
     <p>جميع الحقوق محفوظة &copy; 2025</p>
   </div>
+
   <script>
     const questions = [
-      { id: 'schoolPerformance', text: 'كيف كان أدائك العام في المدرسة؟', options: ['ممتاز', 'جيد جدًا', 'جيد', 'متوسط', 'ضعيف'], weight: 2 },
+      { id: 'mood', text: 'كيف كان شعورك العام أثناء فترة الامتحانات؟', options: ['مرتاح وواثق', 'متوتر بس مسيطر', 'ضايع شوي', 'مكتئب أو مرهق نفسيًا', 'ما كنت حاس بأي شي'], weight: 1 },
+      { id: 'sleep', text: 'كيف كان نومك خلال فترة الامتحانات؟', options: ['منتظم جدًا', 'جيد نسبيًا', 'مضطرب شوي', 'ما كنت أنام', 'مش فاكر حتى'], weight: 1 },
       { id: 'studyHabits', text: 'هل كنت تذاكر بانتظام طول السنة؟', options: ['نعم بشكل يومي', 'أغلب الأيام', 'فقط أيام المراجعة', 'قبل الامتحان بس', 'ولا يوم فعليًا'], weight: 2 },
-      { id: 'confidence', text: 'ما مدى ثقتك في إجاباتك؟', options: ['مطمئن تمامًا', 'إلى حد ما', 'مش واثق', 'مشكك في بعض الإجابات', 'متأكد من أخطاءي'], weight: 2 },
-      { id: 'sourceValidity', text: 'هل كانت مصادر إجاباتك صحيحة وموثوقة؟', options: ['نعم 100%', 'غالبًا كانت صحيحة', 'بعض الإجابات مشكوك فيها', 'غالبًا كانت خاطئة'], weight: 2 },
-      { id: 'history', text: 'توقّعك لمادة التاريخ؟', type: 'range', weight: 3 },
-      { id: 'geo', text: 'توقّعك لمادة الجغرافيا؟', type: 'range', weight: 3 },
-      { id: 'philosophy', text: 'توقّعك لمادة الفلسفة والمنطق؟', type: 'range', weight: 3 },
-      { id: 'arabic', text: 'توقّعك لمادة اللغة العربية؟', type: 'range', weight: 2 },
-      { id: 'english', text: 'توقّعك لمادة اللغة الإنجليزية؟', type: 'range', weight: 2 },
-      { id: 'math', text: 'توقّعك لمادة الرياضيات؟', type: 'range', weight: 2 }
-    ];let current = 0;
-const answers = {};
+      { id: 'schoolPerformance', text: 'كيف كان أدائك العام في المدرسة؟', options: ['ممتاز', 'جيد جدًا', 'جيد', 'متوسط', 'ضعيف'], weight: 2 },
+      { id: 'englishGrade', text: 'توقّعك لمادة الإسلامية؟', type: 'range', weight: 3 },
+      { id: 'arabicGrade', text: 'توقّعك لمادة اللغة العربية؟', type: 'range', weight: 3 },
+      { id: 'historyGrade', text: 'توقّعك لمادة التاريخ؟', type: 'range', weight: 3 },
+      { id: 'geographyGrade', text: 'توقّعك لمادة الجغرافيا؟', type: 'range', weight: 3 },
+      { id: 'mathGrade', text: 'توقّعك لمادة الرياضيات؟', type: 'range', weight: 3 },
+      { id: 'logicGrade', text: 'توقّعك لمادة الفلسفة والمنطق؟', type: 'range', weight: 3 },
+      { id: 'englishLangGrade', text: 'توقّعك لمادة اللغة الإنجليزية؟', type: 'range', weight: 3 },
+    ];
 
-function renderQuestion() {
-  const app = document.getElementById('app');
-  const q = questions[current];
-  let html = `<div class="question"><h2>${q.text}</h2>`;
-  if (q.options) {
-    html += '<div class="options">';
-    q.options.forEach(opt => {
-      html += `<button onclick="answer('${q.id}', '${opt}')">${opt}</button>`;
-    });
-    html += '</div>';
-  } else if (q.type === 'range') {
-    html += `<div class="range-inputs">
-      <input type="number" placeholder="أقل درجة" id="${q.id}_min">
-      <input type="number" placeholder="أعلى درجة" id="${q.id}_max">
-      <button onclick="saveRange('${q.id}')">التالي</button>
-    </div>`;
-  }
-  html += '</div><div class="nav-buttons">';
-  if (current > 0) html += `<button onclick="prev()">السابق</button>`;
-  if (current < questions.length - 1) html += `<button onclick="next()">تخطي</button>`;
-  html += '</div>';
-  app.innerHTML = html;
-}
+    let current = 0;
+    const answers = {};
 
-function answer(id, value) {
-  answers[id] = value;
-  next();
-}
+    function renderQuestion() {
+      const app = document.getElementById('app');
+      const q = questions[current];
+      let html = `<div class="question"><h2>${q.text}</h2>`;
 
-function saveRange(id) {
-  const min = parseFloat(document.getElementById(id + '_min').value);
-  const max = parseFloat(document.getElementById(id + '_max').value);
-  if (!isNaN(min) && !isNaN(max)) {
-    answers[id] = { min, max };
-    next();
-  } else {
-    alert('يرجى إدخال قيم صحيحة.');
-  }
-}
+      if (q.options) {
+        html += '<div class="options">';
+        q.options.forEach(opt => {
+          html += `<button onclick="answer('${q.id}', '${opt}')">${opt}</button>`;
+        });
+        html += '</div>';
+      } else if (q.type === 'range') {
+        html += `<div class="range-inputs">
+          <input type="number" placeholder="أقل درجة" id="${q.id}_min">
+          <input type="number" placeholder="أعلى درجة" id="${q.id}_max">
+          <button onclick="saveRange('${q.id}')">التالي</button>
+        </div>`;
+      }
 
-function next() {
-  if (current < questions.length - 1) {
-    current++;
-    renderQuestion();
-  } else {
-    showResult();
-  }
-}
-
-function prev() {
-  if (current > 0) {
-    current--;
-    renderQuestion();
-  }
-}
-
-function generateAnalysis(score) {
-  if (score >= 90) return 'أداء مبهر! واصل بهذه القوة، أنت على الطريق الصحيح.';
-  if (score >= 80) return 'نتيجة ممتازة، لكن في مساحة بسيطة للتحسين.';
-  if (score >= 70) return 'جيد جدًا، لكن حاول تراجع المواد اللي تحس فيها ضعف.';
-  if (score >= 60) return 'مقبول، محتاج شوية مجهود وتحفيز، شد حيلك.';
-  return 'النتيجة ضعيفة، لكن لا تيأس، كل شيء ممكن يتغير بالإصرار والعمل.';
-}
-
-function showResult() {
-  const app = document.getElementById('app');
-  let total = 0;
-  let count = 0;
-  for (let key in answers) {
-    const q = questions.find(q => q.id === key);
-    const val = answers[key];
-    if (typeof val === 'object') {
-      const avg = (val.min + val.max) / 2;
-      total += avg * q.weight;
-      count += q.weight;
+      html += '</div><div class="nav-buttons">';
+      if (current > 0) html += `<button onclick="prev()">السابق</button>`;
+      if (current < questions.length - 1) html += `<button onclick="next()">تخطي</button>`;
+      html += '</div>';
+      app.innerHTML = html;
     }
-  }
-  const avg = total / count;
-  const analysis = generateAnalysis(avg);
 
-  let html = `<div class="result">${avg.toFixed(2)} / 100</div>`;
-  html += `<div class="analysis">${analysis}</div>`;
-  html += `<button class="share-btn" onclick="shareResult(${avg.toFixed(2)})">مشاركة النتيجة</button>`;
-  app.innerHTML = html;
-}
+    function answer(id, value) {
+      answers[id] = value;
+      next();
+    }
 
-function shareResult(score) {
-  const text = `نتيجتي التقريبية في الثانوية: ${score} / 100 \nاحسب نتيجتك الآن عبر موقع حاسبة الذكاء من عبدالله الدرويش!`;
-  const url = encodeURIComponent(window.location.href);
-  const shareUrl = `https://wa.me/?text=${encodeURIComponent(text)}%20${url}`;
-  window.open(shareUrl, '_blank');
-}
+    function saveRange(id) {
+      const min = parseFloat(document.getElementById(id + '_min').value);
+      const max = parseFloat(document.getElementById(id + '_max').value);
+      if (!isNaN(min) && !isNaN(max)) {
+        answers[id] = { min, max };
+        next();
+      } else {
+        alert('يرجى إدخال قيم صحيحة.');
+      }
+    }
 
-renderQuestion();
+    function next() {
+      if (current < questions.length - 1) {
+        current++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
 
+    function prev() {
+      if (current > 0) {
+        current--;
+        renderQuestion();
+      }
+    }
+
+    function showResult() {
+      const app = document.getElementById('app');
+      let total = 0;
+      let count = 0;
+      let analysis = '';
+
+      for (let key in answers) {
+        const val = answers[key];
+        const weight = questions.find(q => q.id === key).weight;
+        if (typeof val === 'object') {
+          const avg = (val.min + val.max) / 2;
+          total += avg * weight;
+          count += weight;
+        }
+      }
+
+      const avg = total / count;
+
+      if (avg >= 90) {
+        analysis = 'أداء ممتاز! شكلك مجتهد ومستعد تمامًا. الله يوفقك!';
+      } else if (avg >= 75) {
+        analysis = 'معدل جيد جدًا، فيك الخير وكلك أمل. حاول تطور أكثر!';
+      } else if (avg >= 60) {
+        analysis = 'معدل متوسط، تحتاج شوية دفعة وتشجيع. انت قدها!';
+      } else {
+        analysis = 'الطريق صعب شوي لكن مش مستحيل، لا تستسلم وابدأ من جديد.';
+      }
+
+      const html = `
+        <div class="result">${avg.toFixed(2)} / 100</div>
+        <div class="analysis">${analysis}</div>
+      `;
+      app.innerHTML = html;
+    }
+
+    renderQuestion();
   </script>
 </body>
 </html>
